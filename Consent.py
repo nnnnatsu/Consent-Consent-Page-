@@ -1,5 +1,36 @@
 import streamlit as st
 
+# Custom CSS for better styling
+st.markdown("""
+    <style>
+    .main {
+        background-color: #f0f2f6;
+        padding: 2rem;
+    }
+    .reportview-container .main .block-container {
+        padding: 2rem;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .stButton button {
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .stButton button:hover {
+        background-color: #0056b3;
+    }
+    .stSelectbox {
+        padding: 0.5rem;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Define the questions and choices
 questions = [
     ("Do you have a high fever?", ["No fever", "Mild fever", "High fever over 38°C"]),
@@ -24,10 +55,14 @@ scoring = {
 # Streamlit app
 st.title("Disease Risk Assessment")
 
+st.markdown("""
+<p>Welcome to the Disease Risk Assessment tool. Answer the following questions to assess your risk for COVID-19, Pneumonia, and Bronchitis. Click on the "Submit" button to see your results.</p>
+""", unsafe_allow_html=True)
+
 responses = []
 
 for i, (question, choices) in enumerate(questions):
-    response = st.selectbox(question, choices, key=i)
+    response = st.selectbox(question, choices, key=i, index=0)
     responses.append(response)
 
 if st.button("Submit"):
@@ -40,17 +75,18 @@ if st.button("Submit"):
                 scores[disease] += score
 
     # Display the results
-    st.header("Assessment Results")
+    st.markdown("<h2>Assessment Results</h2>", unsafe_allow_html=True)
+    
     for disease, score in scores.items():
-        st.write(f"{disease} risk score: {score}")
+        st.markdown(f"<h4>{disease} risk score: {score}</h4>", unsafe_allow_html=True)
 
     total_score = sum(scores.values())
     if total_score <= 4:
-        st.write("Low risk for COVID-19, Pneumonia, or Bronchitis (might be just a cold or irritation).")
+        st.markdown("<h3>Low risk for COVID-19, Pneumonia, or Bronchitis (might be just a cold or irritation).</h3>", unsafe_allow_html=True)
     elif 5 <= total_score <= 9:
-        st.write("Moderate risk for COVID-19, Pneumonia, or Bronchitis.")
+        st.markdown("<h3>Moderate risk for COVID-19, Pneumonia, or Bronchitis.</h3>", unsafe_allow_html=True)
     else:
-        st.write("High risk for COVID-19, Pneumonia, or Bronchitis.")
+        st.markdown("<h3>High risk for COVID-19, Pneumonia, or Bronchitis.</h3>", unsafe_allow_html=True)
 
     if total_score >= 5:
-        st.write("Please consider consulting a healthcare provider for further evaluation.")
+        st.markdown("<h4>Please consider consulting a healthcare provider for further evaluation.</h4>", unsafe_allow_html=True)
