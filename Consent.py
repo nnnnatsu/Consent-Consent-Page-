@@ -30,26 +30,27 @@ for i, (question, choices) in enumerate(questions):
     response = st.selectbox(question, choices, key=i)
     responses.append(response)
 
-# Calculate the scores
-scores = {"COVID-19": 0, "Pneumonia": 0, "Bronchitis": 0}
+if st.button("Submit"):
+    # Calculate the scores
+    scores = {"COVID-19": 0, "Pneumonia": 0, "Bronchitis": 0}
 
-for disease, conditions in scoring.items():
-    for condition, score in conditions:
-        if condition in responses:
-            scores[disease] += score
+    for disease, conditions in scoring.items():
+        for condition, score in conditions:
+            if condition in responses:
+                scores[disease] += score
 
-# Display the results
-st.header("Assessment Results")
-for disease, score in scores.items():
-    st.write(f"{disease} risk score: {score}")
+    # Display the results
+    st.header("Assessment Results")
+    for disease, score in scores.items():
+        st.write(f"{disease} risk score: {score}")
 
-total_score = sum(scores.values())
-if total_score <= 4:
-    st.write("Low risk for COVID-19, Pneumonia, or Bronchitis (might be just a cold or irritation).")
-elif 5 <= total_score <= 9:
-    st.write("Moderate risk for COVID-19, Pneumonia, or Bronchitis.")
-else:
-    st.write("High risk for COVID-19, Pneumonia, or Bronchitis.")
+    total_score = sum(scores.values())
+    if total_score <= 4:
+        st.write("Low risk for COVID-19, Pneumonia, or Bronchitis (might be just a cold or irritation).")
+    elif 5 <= total_score <= 9:
+        st.write("Moderate risk for COVID-19, Pneumonia, or Bronchitis.")
+    else:
+        st.write("High risk for COVID-19, Pneumonia, or Bronchitis.")
 
-if total_score >= 5:
-    st.write("Please consider consulting a healthcare provider for further evaluation.")
+    if total_score >= 5:
+        st.write("Please consider consulting a healthcare provider for further evaluation.")
