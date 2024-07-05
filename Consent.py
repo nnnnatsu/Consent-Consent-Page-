@@ -45,18 +45,11 @@ questions = [
     ("Do you experience loss of taste or smell?", ["No loss", "Mild loss", "Severe loss"])
 ]
 
-# Define the scoring
-scoring = {
-    "COVID-19": [("Dry cough", 2), ("Severe sore throat", 2), ("Severe headache", 2), ("Severe muscle pain", 2), ("Severe chills", 2), ("Mild diarrhea", 2), ("Severe diarrhea", 2), ("Mild loss", 2), ("Severe loss", 2)],
-    "Pneumonia": [("Cough with phlegm", 2), ("Severe shortness of breath", 2), ("Severe difficulty", 2), ("Severe chills", 2)],
-    "Bronchitis": [("Cough with phlegm", 2), ("Severe shortness of breath", 2), ("Mild sore throat", 2)]
-}
-
 # Streamlit app
 st.title("Disease Risk Assessment")
 
 st.markdown("""
-<p>Welcome to the Disease Risk Assessment tool. Answer the following questions to assess your risk for COVID-19, Pneumonia, and Bronchitis. Click on the "Submit" button to see your results.</p>
+<p>Welcome to the Disease Risk Assessment tool. Answer the following questions to assess your risk for COVID-19, Pneumonia, and Bronchitis. Click on the "Next" button to proceed to the audio classification page.</p>
 """, unsafe_allow_html=True)
 
 responses = []
@@ -65,28 +58,8 @@ for i, (question, choices) in enumerate(questions):
     response = st.selectbox(question, choices, key=i, index=0)
     responses.append(response)
 
-if st.button("Submit"):
-    # Calculate the scores
-    scores = {"COVID-19": 0, "Pneumonia": 0, "Bronchitis": 0}
-
-    for disease, conditions in scoring.items():
-        for condition, score in conditions:
-            if condition in responses:
-                scores[disease] += score
-
-    # Display the results
-    st.markdown("<h2>Assessment Results</h2>", unsafe_allow_html=True)
-    
-    for disease, score in scores.items():
-        st.markdown(f"<h4>{disease} risk score: {score}</h4>", unsafe_allow_html=True)
-
-    total_score = sum(scores.values())
-    if total_score <= 4:
-        st.markdown("<h3>Low risk for COVID-19, Pneumonia, or Bronchitis (might be just a cold or irritation).</h3>", unsafe_allow_html=True)
-    elif 5 <= total_score <= 9:
-        st.markdown("<h3>Moderate risk for COVID-19, Pneumonia, or Bronchitis.</h3>", unsafe_allow_html=True)
-    else:
-        st.markdown("<h3>High risk for COVID-19, Pneumonia, or Bronchitis.</h3>", unsafe_allow_html=True)
-
-    if total_score >= 5:
-        st.markdown("<h4>Please consider consulting a healthcare provider for further evaluation.</h4>", unsafe_allow_html=True)
+# Link to the second app on Hugging Face
+if st.button("Next"):
+    st.markdown("""
+        <meta http-equiv="refresh" content="0; url=https://huggingface.co/spaces/nnnnnnatsu/cough4sound" />
+    """, unsafe_allow_html=True)
