@@ -61,5 +61,5 @@ for i, (question, choices) in enumerate(questions):
 # Link to the second app on Hugging Face
 if st.button("Next"):
     st.markdown("""
-        <meta http-equiv="refresh" content="0; url=https://huggingface.co/spaces/nnnnnnatsu/cough4sound" />
+        <meta http-equiv="refresh" content="0; url=https://nnnnnnnatsu-cough4sound.hf.space" />
     """, unsafe_allow_html=True)
